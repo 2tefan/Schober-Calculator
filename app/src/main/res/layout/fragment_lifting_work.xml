@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".MainActivity">
+
+	<EditText
+		android:id="@+id/input_mass"
+		android:layout_width="0dp"
+		android:layout_height="45dp"
+		android:layout_marginStart="4dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginEnd="8dp"
+		android:ems="10"
+		android:hint="@string/name_mass"
+		android:importantForAutofill="no"
+		android:inputType="numberDecimal"
+		app:layout_constraintEnd_toStartOf="@+id/unit_mass"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<EditText
+		android:id="@+id/input_height"
+		android:layout_width="0dp"
+		android:layout_height="42dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginEnd="8dp"
+		android:ems="10"
+		android:hint="@string/name_height"
+		android:importantForAutofill="no"
+		android:inputType="numberDecimal"
+		app:layout_constraintEnd_toStartOf="@+id/unit_height"
+		app:layout_constraintStart_toStartOf="@+id/input_mass"
+		app:layout_constraintTop_toBottomOf="@+id/input_mass" />
+
+	<EditText
+		android:id="@+id/input_gravity"
+		android:layout_width="0dp"
+		android:layout_height="42dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginEnd="8dp"
+		android:ems="10"
+		android:hint="@string/name_gravity"
+		android:importantForAutofill="no"
+		android:inputType="numberDecimal"
+		android:text="@string/standard_gravity"
+		app:layout_constraintEnd_toStartOf="@+id/unit_gravity"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintStart_toStartOf="@+id/input_height"
+		app:layout_constraintTop_toBottomOf="@+id/input_height" />
+
+	<EditText
+		android:id="@+id/input_work"
+		android:layout_width="0dp"
+		android:layout_height="42dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginEnd="8dp"
+		android:ems="10"
+		android:hint="@string/name_work"
+		android:importantForAutofill="no"
+		android:inputType="numberDecimal"
+		app:layout_constraintEnd_toStartOf="@+id/unit_work"
+		app:layout_constraintStart_toStartOf="@+id/input_height"
+		app:layout_constraintTop_toBottomOf="@+id/input_gravity" />
+
+	<TextView
+		android:id="@+id/unit_mass"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="8dp"
+		android:layout_marginBottom="8dp"
+		android:text="@string/unit_mass"
+		app:layout_constraintBottom_toBottomOf="@+id/input_mass"
+		app:layout_constraintEnd_toEndOf="parent" />
+
+	<TextView
+		android:id="@+id/unit_height"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="8dp"
+		android:layout_marginBottom="8dp"
+		android:text="@string/unit_height"
+		app:layout_constraintBottom_toBottomOf="@+id/input_height"
+		app:layout_constraintEnd_toEndOf="parent" />
+
+	<TextView
+		android:id="@+id/unit_gravity"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="8dp"
+		android:layout_marginBottom="8dp"
+		android:text="@string/unit_gravity"
+		app:layout_constraintBottom_toBottomOf="@+id/input_gravity"
+		app:layout_constraintEnd_toEndOf="parent" />
+
+	<TextView
+		android:id="@+id/unit_work"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="8dp"
+		android:layout_marginBottom="8dp"
+		android:text="@string/unit_work"
+		app:layout_constraintBottom_toBottomOf="@+id/input_work"
+		app:layout_constraintEnd_toEndOf="parent" />
+
+	<Button
+		android:id="@+id/btn_LiftingWork"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginBottom="8dp"
+		android:text="@string/name_calculate"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>

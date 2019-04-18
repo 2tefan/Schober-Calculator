@@ -1,0 +1,47 @@
+<resources>
+	<string name="app_name">Schober Calculator</string>
+	<string name="action_settings">Settings</string>
+
+	<string name="name_calculate">Calculate</string>
+	<string name="already_finish">Already calculated!</string>
+	<string name="not_enough_infomations">Not enough infomations to calculate!</string>
+
+	<string name="list_main">Main</string>
+	<string name="list_velocity">Velocity</string>
+	<string name="list_liftingwork">Lifting Work</string>
+	<string name="list_density">Density</string>
+
+	<string name="name_velocity">Velocity</string>
+	<string name="name_time">Time</string>
+	<string name="name_distance">Distance</string>
+
+	<string name="name_mass">Mass</string>
+	<string name="name_height">Height</string>
+	<string name="name_gravity">Gravity</string>
+	<string name="name_work">Work</string>
+
+	<string name="name_density">Density</string>
+	<string name="name_volume">Volume</string>
+
+
+	<string name="unit_velocity">m/s</string>
+	<string name="unit_time">s</string>
+	<string name="unit_distance">m</string>
+
+	<string name="unit_mass">kg</string>
+	<string name="unit_height">m</string>
+	<string name="unit_gravity">m/s2</string>
+	<string name="unit_work">J</string>
+
+	<string name="unit_density">kg/m3</string>
+	<string name="unit_volume">m3</string>
+
+
+	<string name="standard_gravity">9.81</string>
+
+	<string name="main_infos">Hello, welcome to my little app! \nIf you notice any bug, feel free to let me know. :)\n
+	And don\'t not forget to use coherent units!</string>
+
+	<string name="drawer_open">Open navigation drawer</string>
+	<string name="drawer_close">Close navigation drawer</string>
+</resources>

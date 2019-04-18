@@ -1,0 +1,158 @@
+package at.schiebung.stefan.schober0015;
+
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity
+{
+	private DrawerLayout mDrawer;
+	private Toolbar toolbar;
+	private ActionBarDrawerToggle drawerToggle;
+	Methods methods = new Methods();
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		setupNavbar();
+		methods.dfSetup();
+	}
+
+	public void setupNavbar()
+	{
+		// Set a Toolbar to replace the ActionBar.
+		toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		// Find our drawer view
+		NavigationView nvDrawer = findViewById(R.id.nvView);
+
+		// Setup drawer view
+		setupDrawerContent(nvDrawer);
+
+		// Find our drawer view
+		mDrawer = findViewById(R.id.drawer_layout);
+		drawerToggle = setupDrawerToggle();
+
+		// Tie DrawerLayout events to the ActionBarToggle
+		mDrawer.addDrawerListener(drawerToggle);
+
+		//Open Main on start
+		selectDrawerItem(nvDrawer.getMenu().findItem(R.id.nav_main));
+	}
+
+
+	private ActionBarDrawerToggle setupDrawerToggle()
+	{
+		// NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
+		// and will not render the hamburger icon without it.
+		return new ActionBarDrawerToggle(this,
+		                                 mDrawer,
+		                                 toolbar,
+		                                 R.string.drawer_open,
+		                                 R.string.drawer_close);
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState)
+	{
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		drawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig)
+	{
+		super.onConfigurationChanged(newConfig);
+		// Pass any configuration change to the drawer toggles
+		drawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		DrawerLayout drawer = findViewById(R.id.drawer_layout);
+		if (drawer.isDrawerOpen(GravityCompat.START))
+		{
+			drawer.closeDrawer(GravityCompat.START);
+		}
+		else
+		{
+			super.onBackPressed();
+		}
+	}
+
+	private void setupDrawerContent(NavigationView navigationView)
+	{
+		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+		{
+			@Override
+			public boolean onNavigationItemSelected(MenuItem menuItem)
+			{
+				selectDrawerItem(menuItem);
+				return true;
+			}
+		});
+	}
+
+	public void selectDrawerItem(MenuItem menuItem)
+	{
+		// Create a new fragment and specify the fragment to show based on nav item clicked
+		Class fragmentClass;
+		switch (menuItem.getItemId())
+		{
+			case R.id.nav_main:
+				fragmentClass = MainFragment.class;
+				break;
+			case R.id.nav_velocity:
+				fragmentClass = VelocityFragment.class;
+				break;
+			case R.id.nav_liftingwork:
+				fragmentClass = LiftingWorkFragment.class;
+				break;
+			case R.id.nav_density:
+				fragmentClass = DensityFragment.class;
+				break;
+			default:
+				fragmentClass = MainFragment.class;
+		}
+
+		Fragment fragment = null;
+		try
+		{
+			fragment = (Fragment) fragmentClass.newInstance();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		// Insert the fragment by replacing any existing fragment
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+		// Highlight the selected item has been done by NavigationView
+		menuItem.setChecked(true);
+		// Set action bar title
+		setTitle(menuItem.getTitle());
+		// Close the navigation drawer
+		mDrawer.closeDrawers();
+	}
+}
