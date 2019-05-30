@@ -19,7 +19,8 @@
 		android:inputType="numberDecimal"
 		app:layout_constraintEnd_toStartOf="@+id/unit_velocity"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="o" />
 
 	<EditText
 		android:id="@+id/input_time"
@@ -33,7 +34,8 @@
 		android:inputType="numberDecimal"
 		app:layout_constraintEnd_toStartOf="@+id/unit_height"
 		app:layout_constraintStart_toStartOf="@+id/input_speed"
-		app:layout_constraintTop_toBottomOf="@+id/input_speed" />
+        app:layout_constraintTop_toBottomOf="@+id/input_speed"
+        tools:targetApi="o" />
 
 	<EditText
 		android:id="@+id/input_distance"
@@ -47,7 +49,8 @@
 		android:inputType="numberDecimal"
 		app:layout_constraintEnd_toStartOf="@+id/unit_distance"
 		app:layout_constraintStart_toStartOf="@+id/input_time"
-		app:layout_constraintTop_toBottomOf="@+id/input_time" />
+        app:layout_constraintTop_toBottomOf="@+id/input_time"
+        tools:targetApi="o" />
 
 	<Button
 		android:id="@+id/btn_Velocity"

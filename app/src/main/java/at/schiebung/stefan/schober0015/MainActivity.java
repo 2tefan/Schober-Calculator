@@ -2,6 +2,7 @@ package at.schiebung.stefan.schober0015;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,19 +11,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
 {
-	private DrawerLayout mDrawer;
-	private Toolbar toolbar;
-	private ActionBarDrawerToggle drawerToggle;
-	Methods methods = new Methods();
+	private final Methods               methods = new Methods();
+	private       DrawerLayout          mDrawer;
+	private       Toolbar               toolbar;
+	private       ActionBarDrawerToggle drawerToggle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -33,8 +31,7 @@ public class MainActivity extends AppCompatActivity
 		setupNavbar();
 		methods.dfSetup();
 	}
-
-	public void setupNavbar()
+	private void setupNavbar()
 	{
 		// Set a Toolbar to replace the ActionBar.
 		toolbar = findViewById(R.id.toolbar);
@@ -104,7 +101,7 @@ public class MainActivity extends AppCompatActivity
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
 		{
 			@Override
-			public boolean onNavigationItemSelected(MenuItem menuItem)
+			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
 			{
 				selectDrawerItem(menuItem);
 				return true;
@@ -112,7 +109,7 @@ public class MainActivity extends AppCompatActivity
 		});
 	}
 
-	public void selectDrawerItem(MenuItem menuItem)
+	private void selectDrawerItem(MenuItem menuItem)
 	{
 		// Create a new fragment and specify the fragment to show based on nav item clicked
 		Class fragmentClass;
@@ -146,7 +143,7 @@ public class MainActivity extends AppCompatActivity
 
 		// Insert the fragment by replacing any existing fragment
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+		fragmentManager.beginTransaction().replace(R.id.flContent, Objects.requireNonNull(fragment)).commit();
 
 		// Highlight the selected item has been done by NavigationView
 		menuItem.setChecked(true);

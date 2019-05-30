@@ -1,23 +1,13 @@
 package at.schiebung.stefan.schober0015;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
-
-public class Calculate extends AppCompatActivity
+class Calculate
 {
-	SchoberNumber schoberNumber = new SchoberNumber();
-	public void calc3(View V, int id1, int id2, int id3)
+	private final SchoberNumber schoberNumber = new SchoberNumber();
+	private void calc3(View V, int id1, int id2, int id3)
 	{
 		boolean funkt = true;
 
@@ -89,18 +79,18 @@ public class Calculate extends AppCompatActivity
 		}
 		else
 		{
-			notEnoughInfomations(V);
+			notEnoughInformation(V);
 		}
 	}
 
-	public void calc4(View V, int id1, int id2, int id3, int id4)
+	private void calc4(View V)
 	{
 		boolean funkt = true;
 
-		TextView textView1 = V.findViewById(id1);
-		TextView textView2 = V.findViewById(id2);
-		TextView textView3 = V.findViewById(id3);
-		TextView textView4 = V.findViewById(id4);
+		TextView textView1 = V.findViewById(R.id.input_work);
+		TextView textView2 = V.findViewById(R.id.input_mass);
+		TextView textView3 = V.findViewById(R.id.input_height);
+		TextView textView4 = V.findViewById(R.id.input_gravity);
 
 		String string1 = textView1.getText().toString();
 		String string2 = textView2.getText().toString();
@@ -179,7 +169,7 @@ public class Calculate extends AppCompatActivity
 		}
 		else
 		{
-			notEnoughInfomations(V);
+			notEnoughInformation(V);
 		}
 	}
 
@@ -190,7 +180,7 @@ public class Calculate extends AppCompatActivity
 
 	public void calculateLiftingWork(View V)
 	{
-		calc4(V, R.id.input_work, R.id.input_mass, R.id.input_height, R.id.input_gravity);
+		calc4(V);
 	}
 
 	public void calculateDensity(View V)
@@ -198,7 +188,7 @@ public class Calculate extends AppCompatActivity
 		calc3(V, R.id.input_density, R.id.input_mass, R.id.input_volume);
 	}
 
-	public void alreadyCalculated(View V)
+	private void alreadyCalculated(View V)
 	{
 		Toast toast = Toast.makeText(V.getContext(),
 		                             V.getContext().getString(R.string.already_finish),
@@ -206,11 +196,10 @@ public class Calculate extends AppCompatActivity
 		toast.show();
 	}
 
-	public void notEnoughInfomations(View V)
+	private void notEnoughInformation(View V)
 	{
-		Toast toast = Toast.makeText(V.getContext(),
-		                             V.getContext().getString(R.string.not_enough_infomations),
-		                             Toast.LENGTH_LONG);
+		Toast toast = Toast.makeText(V.getContext(), V.getContext().getString(R.string.not_enough_information),
+									 Toast.LENGTH_LONG);
 		toast.show();
 	}
 }

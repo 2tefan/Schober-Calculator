@@ -19,7 +19,8 @@
 		android:inputType="numberDecimal"
 		app:layout_constraintEnd_toStartOf="@+id/unit_height"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="o" />
 
 	<EditText
 		android:id="@+id/input_mass"
@@ -33,7 +34,8 @@
 		android:inputType="numberDecimal"
 		app:layout_constraintEnd_toStartOf="@+id/unit_density"
 		app:layout_constraintStart_toStartOf="@+id/input_density"
-		app:layout_constraintTop_toBottomOf="@+id/input_density" />
+        app:layout_constraintTop_toBottomOf="@+id/input_density"
+        tools:targetApi="o" />
 
 	<EditText
 		android:id="@+id/input_volume"
@@ -47,7 +49,8 @@
 		android:inputType="numberDecimal"
 		app:layout_constraintEnd_toStartOf="@+id/unit_volume"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/input_mass" />
+        app:layout_constraintTop_toBottomOf="@+id/input_mass"
+        tools:targetApi="o" />
 
 	<Button
 		android:id="@+id/btn_Density"

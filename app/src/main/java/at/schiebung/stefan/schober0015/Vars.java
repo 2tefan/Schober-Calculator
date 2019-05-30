@@ -2,8 +2,8 @@ package at.schiebung.stefan.schober0015;
 
 import java.text.DecimalFormat;
 
-public class Vars
+class Vars
 {
-	static String pattern = "0.##";
-	static DecimalFormat decimalFormat = new DecimalFormat("####,####.##");
+	static final String        pattern       = "0.##";
+	static       DecimalFormat decimalFormat = new DecimalFormat("####,####.##");
 }

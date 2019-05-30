@@ -2,29 +2,16 @@ package at.schiebung.stefan.schober0015;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Locale;
+import java.util.Objects;
 
-public class SchoberNumber
+class SchoberNumber
 {
-    public static boolean isInt(String iString)
-    {
-        boolean result = true;
-        try
-        {
-            int i = Integer.parseInt(iString);
-        }
-        catch (NumberFormatException | NullPointerException e)
-        {
-            result = false;
-        }
-        return result;
-    }
     public static boolean isDouble(String dString)
     {
         boolean result = true;
         try
         {
-            double d = Double.parseDouble(dString);
+            @SuppressWarnings("unused") double d = Double.parseDouble(dString);
         }
         catch (NumberFormatException | NullPointerException e)
         {
@@ -44,7 +31,7 @@ public class SchoberNumber
         {
             e.printStackTrace();
         }
-	        return  Double.parseDouble(number.toString());
+        return Double.parseDouble(Objects.requireNonNull(number).toString());
 
     }
 

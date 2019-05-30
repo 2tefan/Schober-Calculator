@@ -1,10 +1,9 @@
 <resources>
 	<string name="app_name">Schober Calculator</string>
-	<string name="action_settings">Settings</string>
 
 	<string name="name_calculate">Calculate</string>
 	<string name="already_finish">Already calculated!</string>
-	<string name="not_enough_infomations">Not enough infomations to calculate!</string>
+	<string name="not_enough_information">Not enough information to calculate!</string>
 
 	<string name="list_main">Main</string>
 	<string name="list_velocity">Velocity</string>
