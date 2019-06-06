@@ -39,7 +39,7 @@
 	<string name="standard_gravity">9.81</string>
 
 	<string name="main_infos">Hello, welcome to my little app! \nIf you notice any bug, feel free to let me know. :)\n
-	And don\'t not forget to use coherent units!</string>
+	And don\'t forget to use coherent units!</string>
 
 	<string name="drawer_open">Open navigation drawer</string>
 	<string name="drawer_close">Close navigation drawer</string>
