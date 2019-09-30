@@ -1,157 +1,177 @@
 package at.schiebung.stefan.schober0015;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.navigation.NavigationView;
+import java.text.DecimalFormat;
 
-import java.util.Objects;
+import static at.schiebung.stefan.schober0015.Value.DIVIDED;
+import static at.schiebung.stefan.schober0015.Value.MINUS;
+import static at.schiebung.stefan.schober0015.Value.MULTIPLIED;
+import static at.schiebung.stefan.schober0015.Value.NOTHING;
+import static at.schiebung.stefan.schober0015.Value.PLUS;
 
-public class MainActivity extends AppCompatActivity
-{
-	private final Methods               methods = new Methods();
-	private       DrawerLayout          mDrawer;
-	private       Toolbar               toolbar;
-	private       ActionBarDrawerToggle drawerToggle;
+public class MainActivity extends AppCompatActivity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+    private StringBuilder stb = new StringBuilder();
+    private Value[] value = new Value[0];
+    private byte operator = NOTHING;
 
-		setupNavbar();
-		methods.dfSetup();
-	}
-	private void setupNavbar()
-	{
-		// Set a Toolbar to replace the ActionBar.
-		toolbar = findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-		// Find our drawer view
-		NavigationView nvDrawer = findViewById(R.id.nvView);
+        setTextView();
+    }
 
-		// Setup drawer view
-		setupDrawerContent(nvDrawer);
+    public void button(View view) {
+        switch (view.getId()) {
+            case R.id.button0:
+                stb.append(0);
+                break;
+            case R.id.button1:
+                stb.append(1);
+                break;
+            case R.id.button2:
+                stb.append(2);
+                break;
+            case R.id.button3:
+                stb.append(3);
+                break;
+            case R.id.button4:
+                stb.append(4);
+                break;
+            case R.id.button5:
+                stb.append(5);
+                break;
+            case R.id.button6:
+                stb.append(6);
+                break;
+            case R.id.button7:
+                stb.append(7);
+                break;
+            case R.id.button8:
+                stb.append(8);
+                break;
+            case R.id.button9:
+                stb.append(9);
+                break;
+            case R.id.buttonClear:
+                reset();
+                break;
+            case R.id.buttonDelete:
+                if (stb.length() > 0) {
+                    stb.deleteCharAt(stb.length() - 1);
+                }
+                break;
+            case R.id.buttonPoint:
+                stb.append(".");
+                break;
+        }
+        setTextView(false);
+    }
 
-		// Find our drawer view
-		mDrawer = findViewById(R.id.drawer_layout);
-		drawerToggle = setupDrawerToggle();
+    public void operators(View view) {
 
-		// Tie DrawerLayout events to the ActionBarToggle
-		mDrawer.addDrawerListener(drawerToggle);
+        addNumber();
 
-		//Open Main on start
-		selectDrawerItem(nvDrawer.getMenu().findItem(R.id.nav_main));
-	}
+        switch (view.getId()) {
+            case R.id.buttonPlus:
+                operator = PLUS;
+                break;
+            case R.id.buttonMinus:
+                operator = MINUS;
+                break;
+            case R.id.buttonMultiplied:
+                operator = MULTIPLIED;
+                break;
+            case R.id.buttonDivided:
+                operator = DIVIDED;
+                break;
+        }
+
+        stb = new StringBuilder();
+    }
+
+    public void btnEquals(@SuppressWarnings("unused") View view) {
+
+        addNumber();
+
+        double result = value[0].getNumber();
 
 
-	private ActionBarDrawerToggle setupDrawerToggle()
-	{
-		// NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
-		// and will not render the hamburger icon without it.
-		return new ActionBarDrawerToggle(this,
-		                                 mDrawer,
-		                                 toolbar,
-		                                 R.string.drawer_open,
-		                                 R.string.drawer_close);
-	}
+        for (int i = 1; i < value.length; i++) {
+            switch (value[i].getOperator()) {
+                case PLUS:
+                    result += value[i].getNumber();
+                    break;
+                case MINUS:
+                    result -= value[i].getNumber();
+                    break;
+                case MULTIPLIED:
+                    result *= value[i].getNumber();
+                    break;
+                case DIVIDED:
+                    result /= value[i].getNumber();
+                    break;
+            }
+        }
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState)
-	{
-		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
-		drawerToggle.syncState();
-	}
+        setTextView(result);
+        stb = new StringBuilder();
+    }
 
-	@Override
-	public void onConfigurationChanged(@NonNull Configuration newConfig)
-	{
-		super.onConfigurationChanged(newConfig);
-		// Pass any configuration change to the drawer toggles
-		drawerToggle.onConfigurationChanged(newConfig);
-	}
+    private void setTextView() {
 
-	@Override
-	public void onBackPressed()
-	{
-		DrawerLayout drawer = findViewById(R.id.drawer_layout);
-		if (drawer.isDrawerOpen(GravityCompat.START))
-		{
-			drawer.closeDrawer(GravityCompat.START);
-		}
-		else
-		{
-			super.onBackPressed();
-		}
-	}
+        TextView txtOutput = findViewById(R.id.txtOutput);
 
-	private void setupDrawerContent(NavigationView navigationView)
-	{
-		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
-		{
-			@Override
-			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
-			{
-				selectDrawerItem(menuItem);
-				return true;
-			}
-		});
-	}
+        if (!stb.toString().equals("")) {
 
-	private void selectDrawerItem(MenuItem menuItem)
-	{
-		// Create a new fragment and specify the fragment to show based on nav item clicked
-		Class fragmentClass;
-		switch (menuItem.getItemId())
-		{
-			case R.id.nav_main:
-				fragmentClass = MainFragment.class;
-				break;
-			case R.id.nav_velocity:
-				fragmentClass = VelocityFragment.class;
-				break;
-			case R.id.nav_liftingwork:
-				fragmentClass = LiftingWorkFragment.class;
-				break;
-			case R.id.nav_density:
-				fragmentClass = DensityFragment.class;
-				break;
-			default:
-				fragmentClass = MainFragment.class;
-		}
+            DecimalFormat df2 = new DecimalFormat("#,###,###,##0.##");
+            txtOutput.setText(df2.format(Double.parseDouble(stb.toString())));
+        } else {
+            txtOutput.setText("");
+        }
+    }
 
-		Fragment fragment = null;
-		try
-		{
-			fragment = (Fragment) fragmentClass.newInstance();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+    private void setTextView(double d) {
+        TextView txtOutput = findViewById(R.id.txtOutput);
+        DecimalFormat df2 = new DecimalFormat("#,###,###,##0.##");
 
-		// Insert the fragment by replacing any existing fragment
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.flContent, Objects.requireNonNull(fragment)).commit();
+        txtOutput.setText(df2.format(d));
+    }
 
-		// Highlight the selected item has been done by NavigationView
-		menuItem.setChecked(true);
-		// Set action bar title
-		setTitle(menuItem.getTitle());
-		// Close the navigation drawer
-		mDrawer.closeDrawers();
-	}
+    private void setTextView(@SuppressWarnings("unused") boolean b) {
+        TextView txtOutput = findViewById(R.id.txtOutput);
+        txtOutput.setText(stb.toString());
+    }
+
+    private void addValue(double number, byte operator) {
+        Value[] temp = new Value[this.value.length + 1];
+
+        System.arraycopy(this.value, 0, temp, 0, this.value.length);
+
+        temp[temp.length - 1] = new Value();
+        temp[temp.length - 1].setNumber(number);
+        temp[temp.length - 1].setOperator(operator);
+
+        this.value = temp;
+    }
+
+    private void addNumber() {
+        if (!stb.toString().equals("")) {
+            double number = Double.parseDouble(stb.toString());
+            addValue(number, operator);
+        }
+    }
+
+    private void reset() {
+        stb = new StringBuilder();
+        value = new Value[0];
+        operator = NOTHING;
+    }
 }
