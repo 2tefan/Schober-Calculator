@@ -107,8 +107,7 @@ public class MainActivity extends AppCompatActivity {
             addNumber();
 
             double result = value[0].getNumber();
-
-
+            
             for (int i = 1; i < value.length; i++) {
                 switch (value[i].getOperator()) {
                     case PLUS:
