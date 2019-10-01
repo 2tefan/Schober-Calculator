@@ -6,8 +6,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.DecimalFormat;
-
 import static at.schiebung.stefan.schober0015.Value.DIVIDED;
 import static at.schiebung.stefan.schober0015.Value.MINUS;
 import static at.schiebung.stefan.schober0015.Value.MULTIPLIED;
@@ -17,6 +15,7 @@ import static at.schiebung.stefan.schober0015.Value.PLUS;
 public class MainActivity extends AppCompatActivity {
 
     private StringBuilder stb = new StringBuilder();
+    int posLastOparator = 0;
     private Value[] value = new Value[0];
     private byte operator = NOTHING;
 
@@ -64,88 +63,77 @@ public class MainActivity extends AppCompatActivity {
                 reset();
                 break;
             case R.id.buttonDelete:
-                if (stb.length() > 0) {
-                    stb.deleteCharAt(stb.length() - 1);
-                }
+                deleteLastItem();
                 break;
             case R.id.buttonPoint:
-                stb.append(".");
+                if (!isPointAlreadyHere()) {
+                    stb.append(".");
+                }
                 break;
         }
-        setTextView(false);
+        setTextView();
     }
 
     public void operators(View view) {
 
-        addNumber();
+        if (stb.length() > 0) {
+            addNumber();
 
-        switch (view.getId()) {
-            case R.id.buttonPlus:
-                operator = PLUS;
-                break;
-            case R.id.buttonMinus:
-                operator = MINUS;
-                break;
-            case R.id.buttonMultiplied:
-                operator = MULTIPLIED;
-                break;
-            case R.id.buttonDivided:
-                operator = DIVIDED;
-                break;
+            switch (view.getId()) {
+                case R.id.buttonPlus:
+                    operator = PLUS;
+                    stb.append("+");
+                    break;
+                case R.id.buttonMinus:
+                    operator = MINUS;
+                    stb.append("-");
+                    break;
+                case R.id.buttonMultiplied:
+                    operator = MULTIPLIED;
+                    stb.append("*");
+                    break;
+                case R.id.buttonDivided:
+                    operator = DIVIDED;
+                    stb.append("/");
+                    break;
+            }
+            posLastOparator = stb.length();
+            setTextView();
         }
-
-        stb = new StringBuilder();
     }
 
     public void btnEquals(@SuppressWarnings("unused") View view) {
+        if (stb.length() > 0) {
+            addNumber();
 
-        addNumber();
-
-        double result = value[0].getNumber();
+            double result = value[0].getNumber();
 
 
-        for (int i = 1; i < value.length; i++) {
-            switch (value[i].getOperator()) {
-                case PLUS:
-                    result += value[i].getNumber();
-                    break;
-                case MINUS:
-                    result -= value[i].getNumber();
-                    break;
-                case MULTIPLIED:
-                    result *= value[i].getNumber();
-                    break;
-                case DIVIDED:
-                    result /= value[i].getNumber();
-                    break;
+            for (int i = 1; i < value.length; i++) {
+                switch (value[i].getOperator()) {
+                    case PLUS:
+                        result += value[i].getNumber();
+                        break;
+                    case MINUS:
+                        result -= value[i].getNumber();
+                        break;
+                    case MULTIPLIED:
+                        result *= value[i].getNumber();
+                        break;
+                    case DIVIDED:
+                        result /= value[i].getNumber();
+                        break;
+                }
             }
-        }
 
-        setTextView(result);
-        stb = new StringBuilder();
+            reset();
+            stb.append(result);
+            setTextView();
+        }
     }
 
     private void setTextView() {
 
-        TextView txtOutput = findViewById(R.id.txtOutput);
-
-        if (!stb.toString().equals("")) {
-
-            DecimalFormat df2 = new DecimalFormat("#,###,###,##0.##");
-            txtOutput.setText(df2.format(Double.parseDouble(stb.toString())));
-        } else {
-            txtOutput.setText("");
-        }
-    }
-
-    private void setTextView(double d) {
-        TextView txtOutput = findViewById(R.id.txtOutput);
-        DecimalFormat df2 = new DecimalFormat("#,###,###,##0.##");
-
-        txtOutput.setText(df2.format(d));
-    }
-
-    private void setTextView(@SuppressWarnings("unused") boolean b) {
         TextView txtOutput = findViewById(R.id.txtOutput);
         txtOutput.setText(stb.toString());
     }
@@ -163,15 +151,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addNumber() {
-        if (!stb.toString().equals("")) {
-            double number = Double.parseDouble(stb.toString());
+        try {
+            double number = Double.parseDouble(stb.substring(posLastOparator));
             addValue(number, operator);
+        } catch (Exception e) {
+            deleteLastItem();
+        }
+    }
+
+    private void deleteLastItem() {
+        if (stb.length() > 0) {
+            stb.deleteCharAt(stb.length() - 1);
         }
     }
 
     private void reset() {
+        posLastOparator = 0;
         stb = new StringBuilder();
         value = new Value[0];
         operator = NOTHING;
+    }
+
+    private boolean isPointAlreadyHere() {
+        String s = stb.substring(posLastOparator);
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '.') {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
