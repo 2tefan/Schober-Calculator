@@ -20,12 +20,11 @@
 
     <TableLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="350dp"
         android:stretchColumns="*"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtOutput">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TableRow
             android:layout_width="match_parent"

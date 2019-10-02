@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -138,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void printResult(double d) {
         reset();
-        NumberFormat numberFormat = new DecimalFormat("#,###.########");
-        stb.append(numberFormat.format(d));
+        Locale locale = Locale.ENGLISH;
+        stb.append(NumberFormat.getNumberInstance(locale).format(d));
 
         setTextView();
     }
