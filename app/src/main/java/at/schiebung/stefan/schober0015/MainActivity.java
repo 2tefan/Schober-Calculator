@@ -6,6 +6,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import static at.schiebung.stefan.schober0015.Value.DIVIDED;
 import static at.schiebung.stefan.schober0015.Value.MINUS;
 import static at.schiebung.stefan.schober0015.Value.MULTIPLIED;
@@ -125,16 +128,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            reset();
-            stb.append(result);
-            setTextView();
+            printResult(result);
         }
     }
 
     private void setTextView() {
-
         TextView txtOutput = findViewById(R.id.txtOutput);
         txtOutput.setText(stb.toString());
+    }
+
+    private void printResult(double d) {
+        reset();
+        NumberFormat numberFormat = new DecimalFormat("#,###.########");
+        stb.append(numberFormat.format(d));
+
+        setTextView();
     }
 
     private void addValue(double number, byte operator) {
