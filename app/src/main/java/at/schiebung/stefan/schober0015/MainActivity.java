@@ -9,23 +9,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import timber.log.Timber;
+
 import static at.schiebung.stefan.schober0015.Value.DIVIDED;
 import static at.schiebung.stefan.schober0015.Value.MINUS;
 import static at.schiebung.stefan.schober0015.Value.MULTIPLIED;
-import static at.schiebung.stefan.schober0015.Value.NOTHING;
 import static at.schiebung.stefan.schober0015.Value.PLUS;
 
 public class MainActivity extends AppCompatActivity {
 
     private StringBuilder stb = new StringBuilder();
-    int posLastOparator = 0;
+    private int pasLastOperator = 0;
     private Value[] value = new Value[0];
-    private byte operator = NOTHING;
+    private byte operator = PLUS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
 
         setTextView();
     }
@@ -100,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     stb.append("/");
                     break;
             }
-            posLastOparator = stb.length();
+            pasLastOperator = stb.length();
             setTextView();
         }
     }
@@ -109,26 +113,21 @@ public class MainActivity extends AppCompatActivity {
         if (stb.length() > 0) {
             addNumber();
 
-            double result = value[0].getNumber();
-            
-            for (int i = 1; i < value.length; i++) {
-                switch (value[i].getOperator()) {
-                    case PLUS:
-                        result += value[i].getNumber();
-                        break;
-                    case MINUS:
-                        result -= value[i].getNumber();
-                        break;
-                    case MULTIPLIED:
-                        result *= value[i].getNumber();
-                        break;
-                    case DIVIDED:
-                        result /= value[i].getNumber();
-                        break;
-                }
-            }
+            simplify(new byte[]{MULTIPLIED, DIVIDED, PLUS, MINUS});
 
-            printResult(result);
+            printResult(value[0].getNumber());
+        }
+    }
+
+    private void simplify(byte[] operators) {
+        for (byte b : operators) {
+            for (int j = 1; j < value.length; j++) {
+                if (b == value[j].getOperator()) {
+                    calcNumber(j);
+                    j--;
+                }
+                printValue();
+            }
         }
     }
 
@@ -157,9 +156,43 @@ public class MainActivity extends AppCompatActivity {
         this.value = temp;
     }
 
+    private void calcNumber(int index) {
+        if (index > 0) {
+            switch (value[index].getOperator()) {
+                case PLUS:
+                    value[index - 1].setNumber(value[index - 1].getNumber() + value[index].getNumber());
+                    break;
+                case MINUS:
+                    value[index - 1].setNumber(value[index - 1].getNumber() - value[index].getNumber());
+                    break;
+                case MULTIPLIED:
+                    value[index - 1].setNumber(value[index - 1].getNumber() * value[index].getNumber());
+                    break;
+                case DIVIDED:
+                    value[index - 1].setNumber(value[index - 1].getNumber() / value[index].getNumber());
+                    break;
+            }
+            removeOldNumber(index);
+        }
+    }
+
+    private void removeOldNumber(int index) {
+        Value[] temp = new Value[value.length - 1];
+
+        for (int i = 0; i < temp.length; i++) {
+            if (i < index) {
+                temp[i] = value[i];
+            } else {
+                temp[i] = value[i + 1];
+            }
+        }
+
+        value = temp;
+    }
+
     private void addNumber() {
         try {
-            double number = Double.parseDouble(stb.substring(posLastOparator));
+            double number = Double.parseDouble(stb.substring(pasLastOperator));
             addValue(number, operator);
         } catch (Exception e) {
             deleteLastItem();
@@ -173,14 +206,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reset() {
-        posLastOparator = 0;
+        pasLastOperator = 0;
         stb = new StringBuilder();
         value = new Value[0];
-        operator = NOTHING;
+        operator = PLUS;
     }
 
     private boolean isPointAlreadyHere() {
-        String s = stb.substring(posLastOparator);
+        String s = stb.substring(pasLastOperator);
 
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '.') {
@@ -189,5 +222,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    private void printValue() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Value item : value) {
+            switch (item.getOperator()) {
+                case PLUS:
+                    stringBuilder.append("+");
+                    break;
+                case MINUS:
+                    stringBuilder.append("-");
+                    break;
+                case MULTIPLIED:
+                    stringBuilder.append("*");
+                    break;
+                case DIVIDED:
+                    stringBuilder.append("/");
+                    break;
+            }
+
+            stringBuilder.append(item.getNumber());
+        }
+
+        Timber.v(stringBuilder.toString());
     }
 }
